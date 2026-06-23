@@ -12,5 +12,10 @@ public class ProductsController {
 		return "products/ok";
 	}
 	
+	@RequestMapping("/produtos/form")
+	public String form() {
+		return "products/form";
+	}
+	
 	
 }
