@@ -56,6 +56,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -80,6 +81,7 @@
 			<version>1.2.16</version>
 			<scope></scope>
 		</dependency>
+		
 		<!-- configuracao jpa e driver -->
 		<dependency>
 			<groupId>org.hibernate</groupId>

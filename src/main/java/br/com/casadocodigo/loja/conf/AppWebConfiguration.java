@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import br.com.casadocodigo.loja.controllers.HomeController;
+import br.com.casadocodigo.loja.daos.ProductDAO;
 
 /*
  * Essa classe expõe para a Servlet do Spring MVc
@@ -15,7 +16,7 @@ import br.com.casadocodigo.loja.controllers.HomeController;
 
 
 @EnableWebMvc
-@ComponentScan(basePackageClasses= {HomeController.class}) 
+@ComponentScan(basePackageClasses= {HomeController.class, ProductDAO.class}) 
 public class AppWebConfiguration {
 	
 	/* 	guarda as guarda as configurações da pasta base e do sufixo que devem
