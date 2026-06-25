@@ -3,30 +3,46 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Cadastro de Produto</title>
 </head>
 <body>
 
-	<form action="/casadocodigo/produtos" method="post">
+	<form action="${pageContext.request.contextPath}/produtos"
+		method="post">
+
 		<div>
-			<label for="titulo">Titulo</label>
-			<input type="text" name="titulo" id="titulo"/>
+			<label for="title">Título</label> <input type="text" name="title"
+				id="title" />
 		</div>
+
 		<div>
-			<label for="descricao">Descrição</label>
-			<textarea rows="10" cols="20" name="descricao" id="descricao"></textarea>
+			<label for="description">Descrição</label>
+			<textarea rows="10" cols="20" name="description" id="description"></textarea>
 		</div>
+
 		<div>
-			<label for="valor">Valor</label>
-			<input type="text" name="valor" id="valor"/>
+			<label for="value">Valor</label> <input type="text" name="value"
+				id="value" />
 		</div>
+
 		<div>
-			<label for="numeroPaginas">Número de paginas</label>
-			<input type="text" name="numeroPaginas" id="numeroPaginas"/>
+			<label for="numPages">Número de páginas</label> <input type="text"
+				name="numPages" id="numPages" />
 		</div>
+
+		<c:forEach items="${types}" var="bookType" varStatus="status">
+			<div>
+				<label for="price_${bookType}">${bookType}</label> <input
+					type="text" name="prices[${status.index}].value"
+					id="price_${bookType}" /> <input type="hidden"
+					name="prices[${status.index}].bookType" value="${bookType}" />
+			</div>
+		</c:forEach>
+
 		<div>
 			<input type="submit" value="Enviar">
 		</div>
+
 	</form>
 
 </body>

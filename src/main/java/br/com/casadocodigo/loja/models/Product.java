@@ -1,11 +1,25 @@
 package br.com.casadocodigo.loja.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.ElementCollection;
+
 public class Product {
 	
 	private String title;
 	private String description;
 	private int pages;
 	
+	@ElementCollection
+	private List<Price> prices = new ArrayList<Price>();
+	
+	public List<Price> getPrices() {
+		return prices;
+	}
+	public void setPrices(List<Price> prices) {
+		this.prices = prices;
+	}
 	public String getTitle() {
 		return title;
 	}
