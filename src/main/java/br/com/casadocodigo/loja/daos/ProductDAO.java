@@ -1,11 +1,11 @@
 package br.com.casadocodigo.loja.daos;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import br.com.casadocodigo.loja.models.Product;
 
@@ -19,10 +19,7 @@ public class ProductDAO {
 		manager.persist(product);
 	}
 
-	@RequestMapping("/produtos")
-	public ModelAndView list() {
-		ModelAndView modelAndView = new ModelAndView("products/list");
-		modelAndView.addObject("products", productDAO.list());
-		return modelAndView;
+	public List<Product> list() {
+		return manager.createQuery("select distinct(p) from Product p join fetch p.prices",Product.class).getResultList();
 	}
 }
