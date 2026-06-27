@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.casadocodigo.loja.daos.ProductDAO;
+import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.BookType;
 import br.com.casadocodigo.loja.models.Product;
 
@@ -25,10 +26,10 @@ import br.com.casadocodigo.loja.models.Product;
 public class ProductsController {
 
 	@Autowired
-	private ProductDAO productDAO;
+	private ProductDAO products;
 	
 	@Autowired
-//	private FileSaver
+	private FileSaver fileSaver;
 
 	// por enquanto não precisamos desse método
 
@@ -41,10 +42,15 @@ public class ProductsController {
 	public ModelAndView save(MultipartFile sumary, @Valid @ModelAttribute("produto") Product product, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes) throws IOException {
 		System.out.println(sumary.getName() + ";" + sumary.getOriginalFilename());
+		
+		String webPath = fileSaver.write("upload-images", sumary);
+		product.setSummaryPath(webPath);
+		products.save(product);
+		
 		if (bindingResult.hasErrors()) {
 			return form(product);
 		}
-		productDAO.save(product);
+		products.save(product);
 		redirectAttributes.addFlashAttribute("sucesso", "Produto cadastrado com sucesso");
 		return new ModelAndView("redirect:produtos");
 	}
@@ -59,7 +65,8 @@ public class ProductsController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView list() {
 		ModelAndView modelAndView = new ModelAndView("products/list");
-		modelAndView.addObject("products", productDAO.list());
+		modelAndView.addObject("products", products.list());
 		return modelAndView;
 	}
+	
 }

@@ -38,6 +38,18 @@ public class Product {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Calendar releaseDate;
 	
+	private String summaryPath;
+	
+	
+	
+	public String getSummaryPath() {
+		return summaryPath;
+	}
+
+	public void setSummaryPath(String summaryPath) {
+		this.summaryPath = summaryPath;
+	}
+
 	public Calendar getReleaseDate() {
 		return releaseDate;
 	}
