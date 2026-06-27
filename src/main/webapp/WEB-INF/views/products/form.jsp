@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>	
+<body>	 
 	<spring:hasBindErrors name="product">
 		<ul>
 		<c:forEach var="error" items="${errors.allErrors}">	

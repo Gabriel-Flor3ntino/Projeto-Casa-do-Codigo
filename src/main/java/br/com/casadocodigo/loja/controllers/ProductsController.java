@@ -1,5 +1,7 @@
 package br.com.casadocodigo.loja.controllers;
 
+import java.io.IOException;
+
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -9,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -23,17 +26,21 @@ public class ProductsController {
 
 	@Autowired
 	private ProductDAO productDAO;
+	
+	@Autowired
+//	private FileSaver
 
 	// por enquanto não precisamos desse método
-	
+
 //	@InitBinder
 //	protected void initBinder(WebDataBinder binder) {
 //		binder.setValidator(new ProductValidator());
 //	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView save(@Valid @ModelAttribute("produto") Product product, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes) {
+	public ModelAndView save(MultipartFile sumary, @Valid @ModelAttribute("produto") Product product, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) throws IOException {
+		System.out.println(sumary.getName() + ";" + sumary.getOriginalFilename());
 		if (bindingResult.hasErrors()) {
 			return form(product);
 		}
