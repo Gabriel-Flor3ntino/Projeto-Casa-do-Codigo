@@ -22,7 +22,7 @@ public class PaymentController {
     @Autowired
     private RestTemplate restTemplate;
 
-    public Callable<String> checkou() {
+    public Callable<String> checkout() {
         return () -> {
             BigDecimal total = shoppingCart.getTotal();
             String uriToPay = "http://localhost:9000/payment";
