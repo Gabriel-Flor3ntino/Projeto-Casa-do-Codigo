@@ -71,7 +71,7 @@ public class ProductsController {
 	}
 
 	@RequestMapping("/{id}")
-	public ModelAndView show (@PathVariable ("id") Integer id) {
+	public ModelAndView show(@PathVariable("id") Integer id){
 		ModelAndView modelAndView = new ModelAndView("products/show");
 		Product product = products.find(id);
 		modelAndView.addObject("product", product);

@@ -10,6 +10,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.concurrent.Callable;
 
 @Controller
 @RequestMapping("/payment")
@@ -21,17 +22,16 @@ public class PaymentController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @RequestMapping(value = "checkout", method = RequestMethod.POST)
-    public String checkout() {
-        BigDecimal total = shoppingCart.getTotal();
-
-        String uriToPay = "http://book-payment.herokuapp.com/payment";
-
-        try {
-            String response = restTemplate.postForObject(uriToPay, new PaymentData(total), String.class);
-            return "redirect:/paument/success";
-        } catch (HttpClientErrorException exception) {
-            return "redirect:/paument/error";
-        }
+    public Callable<String> checkou() {
+        return () -> {
+            BigDecimal total = shoppingCart.getTotal();
+            String uriToPay = "http://localhost:9000/payment";
+            try {
+                String response = restTemplate.postForObject(uriToPay, new PaymentData(total), String.class);
+                return "redirect:/payment/success";
+            } catch (HttpClientErrorException exception) {
+                return "redirect:/payment/error";
+            }
+        };
     }
 }
