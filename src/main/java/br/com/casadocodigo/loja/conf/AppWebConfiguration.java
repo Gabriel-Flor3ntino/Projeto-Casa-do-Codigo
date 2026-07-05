@@ -1,5 +1,6 @@
 package br.com.casadocodigo.loja.conf;
 
+import br.com.casadocodigo.loja.viewresolver.JsonViewResolver;
 import com.google.common.cache.CacheBuilder;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
