@@ -11,16 +11,16 @@
 						<li><a href="${spring:mvcUrl('SCC#items').build()}" rel="nofollow">Seu carrinho (${shoppingCart.quantity}) </a></li>
 
 						<li><a href="/pages/sobre-a-casa-do-codigo" rel="nofollow">Sobre
-								nós </a></li>
+								nï¿½s </a></li>
 
 						<li><a href="/pages/perguntas-frequentes" rel="nofollow">Perguntas
 								Frequentes </a></li>
 								
 						<li>
-							<a href="<c:url value="/produtos?locale=pt"/>">Português</a>
+							<a href="<c:url value="/produtos?locale=pt"/>">PortuguÃªs</a>
 						</li>		
 						<li>
-							<a href="<c:url value="/produtos?locale=en_US"/>">Inglês</a>
+							<a href="<c:url value="/produtos?locale=en_US"/>">InglÃªs</a>
 						</li>		
 
 					</ul>
