@@ -11,5 +11,6 @@ public class HomeController {
 		System.out.println("Carregando os produtos");
 		return "hello-word";
 	}
-	
+
+
 }

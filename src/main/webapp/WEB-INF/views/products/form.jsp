@@ -26,19 +26,32 @@
 			<form:errors path="title" />
 		</div>
 		<div>
-			<label for="descricao">Descrição</label>
+			<label for="descricao">DescriÃ§Ã£oo</label>
 			<form:textarea path="description" rows="10" cols="20" />
 			<form:errors path="description" />
 		</div>
 		<div>
-			<label for="numeroPaginas">Número de paginas</label>
+			<label for="numeroPaginas">NÃºmero de paginas</label>
 			<form:input path="pages" />
 			<form:errors path="pages" />
 		</div>
 		<div>
-			<label for="releaseDate">Data de lançamento</label>
+			<label for="releaseDate">Data de lanÃ§amento</label>
 			<form:input path="releaseDate" type="date" />
 			<form:errors path="releaseDate" />
+		</div>
+
+		<div>
+			<label for="category">Categoria</label>
+
+			<form:select path="category.id">
+				<form:option value="" label="Selecione uma categoria"/>
+				<form:options items="${categories}"
+				              itemValue="id"
+				              itemLabel="name"/>
+			</form:select>
+
+			<form:errors path="category"/>
 		</div>
 		<div>
 			<label for="summary">Sumario do livro</label> <input type="file"

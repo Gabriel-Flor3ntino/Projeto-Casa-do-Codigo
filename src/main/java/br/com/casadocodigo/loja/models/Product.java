@@ -5,12 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -18,7 +13,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Product {
-	
+
+	@Column(nullable = false)
+	private Boolean approved = false;
+
+	private boolean featured;
+
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -40,9 +44,23 @@ public class Product {
 	private Calendar releaseDate;
 	
 	private String summaryPath;
-	
-	
-	
+
+	public Boolean getApproved() {
+		return approved;
+	}
+
+	public void setApproved(Boolean approved) {
+		this.approved = approved;
+	}
+
+	public boolean isFeatured() {
+		return featured;
+	}
+
+	public void setFeatured(boolean featured) {
+		this.featured = featured;
+	}
+
 	public String getSummaryPath() {
 		return summaryPath;
 	}

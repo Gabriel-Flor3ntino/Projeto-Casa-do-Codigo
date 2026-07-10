@@ -81,5 +81,44 @@ public class ProductsController {
 		modelAndView.addObject("product", product);
 		return modelAndView;
 	}
+
+	@RequestMapping("/aprovados")
+	public ModelAndView approved(){
+
+		ModelAndView mv = new ModelAndView("products/approved");
+
+		mv.addObject("products",
+				products.approvedBooks());
+
+		return mv;
+
+	}
+
+	@RequestMapping("/destaques")
+	public ModelAndView featured(){
+
+		ModelAndView mv =
+				new ModelAndView("products/featured");
+
+		mv.addObject("products",
+				products.featuredBooks());
+
+		return mv;
+
+	}
+
+	@RequestMapping("/categoria/{id}")
+	public ModelAndView byCategory(
+			@PathVariable Integer id){
+
+		ModelAndView mv =
+				new ModelAndView("products/category");
+
+		mv.addObject("products",
+				products.findByCategory(id));
+
+		return mv;
+
+	}
 	
 }

@@ -44,4 +44,36 @@ public class ProductDAO {
 		query.setParameter("bookType", bookType);
 		return query.getSingleResult();
 	}
+
+	public List<Product> approvedBooks() {
+
+		return manager.createQuery(
+				"select p from Product p where p.approved = true",
+				Product.class
+		).getResultList();
+
+	}
+
+	public List<Product> featuredBooks(){
+
+		return manager.createQuery(
+				"select p from Product p where p.featured = true",
+				Product.class
+		).getResultList();
+
+	}
+
+	public List<Product> findByCategory(Integer id){
+
+		return manager.createQuery(
+
+						"select p from Product p where p.category.id=:id",
+
+						Product.class)
+
+				.setParameter("id", id)
+
+				.getResultList();
+
+	}
 }
