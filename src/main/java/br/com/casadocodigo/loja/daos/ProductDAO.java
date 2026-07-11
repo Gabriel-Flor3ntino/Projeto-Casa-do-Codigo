@@ -1,5 +1,6 @@
 package br.com.casadocodigo.loja.daos;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -75,5 +76,13 @@ public class ProductDAO {
 
 				.getResultList();
 
+	}
+
+	public BigDecimal sumPricesPerType(BookType bookType) {
+		TypedQuery<BigDecimal> query = manager.createQuery(
+				"select sum(price.value) from Product p join p.prices price where price.bookType =:bookType",
+		BigDecimal.class);
+		query.setParameter("bookType", bookType);
+		return query.getSingleResult();
 	}
 }
