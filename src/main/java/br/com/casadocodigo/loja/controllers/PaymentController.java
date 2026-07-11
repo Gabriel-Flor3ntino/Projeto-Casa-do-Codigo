@@ -57,5 +57,4 @@ public class PaymentController {
 		email.setText("corpodo email");			
 		mailer.send(email);
 	}
-
 }

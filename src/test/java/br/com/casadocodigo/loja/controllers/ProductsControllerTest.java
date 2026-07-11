@@ -3,8 +3,6 @@ package br.com.casadocodigo.loja.controllers;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -16,8 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.annotation.Timed;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -31,13 +27,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.casadocodigo.loja.builders.ProductBuilder;
 import br.com.casadocodigo.loja.conf.AppWebConfiguration;
 import br.com.casadocodigo.loja.conf.DataSourceConfigurationTest;
 import br.com.casadocodigo.loja.conf.JPAConfiguration;
 import br.com.casadocodigo.loja.conf.SecurityConfiguration;
 import br.com.casadocodigo.loja.daos.ProductDAO;
-import br.com.casadocodigo.loja.models.BookType;
-import br.com.casadocodigo.loja.models.Price;
 import br.com.casadocodigo.loja.models.Product;
 
 @RunWith(SpringJUnit4ClassRunner.class)
