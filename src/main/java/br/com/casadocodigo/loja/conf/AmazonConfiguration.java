@@ -1,24 +1,32 @@
 package br.com.casadocodigo.loja.conf;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.S3ClientOptions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
+@Configuration
 public class AmazonConfiguration {
 
 	@Bean
-	public AmazonS3Client s3Ninja() {
+	@Profile("dev")
+	public AmazonS3 s3Ninja() {
 		AWSCredentials credentials = new BasicAWSCredentials(
 				"AKIAIOSFODNN7EXAMPLE",
 				"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY");
-		AmazonS3Client newClient = new AmazonS3Client(credentials, new ClientConfiguration());
-		newClient.setS3ClientOptions(new S3ClientOptions().withPathStyleAccess(true));
-		newClient.setEndpoint("http://localhost:9444/s3");
-		
-		return newClient;
+
+		return AmazonS3ClientBuilder.standard()
+				.withCredentials(new com.amazonaws.auth.AWSStaticCredentialsProvider(credentials))
+				.withClientConfiguration(new ClientConfiguration())
+				.withEndpointConfiguration(
+						new com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration(
+								"http://localhost:9444/s3", "us-east-1"))
+				.withPathStyleAccessEnabled(true)
+				.build();
 	}
 }

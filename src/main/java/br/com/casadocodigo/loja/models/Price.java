@@ -2,8 +2,8 @@ package br.com.casadocodigo.loja.models;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Embeddable
@@ -14,7 +14,7 @@ public class Price {
 	//@NumberFormat(style=Style.CURRENCY)
 	private BigDecimal value;
 	private BookType bookType;
-	
+
 	public BigDecimal getValue() {
 		return value;
 	}
@@ -35,7 +35,7 @@ public class Price {
 	public String toString() {
 		return "Price [value=" + value + ", bookType=" + bookType + "]";
 	}
-	
-	
+
+
 
 }

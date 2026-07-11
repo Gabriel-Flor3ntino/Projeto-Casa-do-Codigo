@@ -28,7 +28,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.casadocodigo.loja.builders.ProductBuilder;
-import br.com.casadocodigo.loja.conf.AppWebConfiguration;
 import br.com.casadocodigo.loja.conf.DataSourceConfigurationTest;
 import br.com.casadocodigo.loja.conf.JPAConfiguration;
 import br.com.casadocodigo.loja.conf.SecurityConfiguration;

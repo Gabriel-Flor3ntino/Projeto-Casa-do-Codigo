@@ -2,8 +2,8 @@ package br.com.casadocodigo.loja.controllers;
 
 import java.io.IOException;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
+import org.springframework.transaction.annotation.Transactional;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -30,27 +30,27 @@ public class ProductsController {
 
 	@Autowired
 	private ProductDAO products;
-	
+
 	@Autowired
 	private FileSaver fileSaver;
 
 	// por enquanto não precisamos desse método
 
-//	@InitBinder
-//	protected void initBinder(WebDataBinder binder) {
-//		binder.setValidator(new ProductValidator());
-//	}
+//      @InitBinder
+//      protected void initBinder(WebDataBinder binder) {
+//              binder.setValidator(new ProductValidator());
+//      }
 
 	@RequestMapping(method = RequestMethod.POST)
 	@CacheEvict(value = "books", allEntries = true)
 	public ModelAndView save(MultipartFile sumary, @Valid @ModelAttribute("produto") Product product, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes) throws IOException {
+	                         RedirectAttributes redirectAttributes) throws IOException {
 		System.out.println(sumary.getName() + ";" + sumary.getOriginalFilename());
-		
+
 		String webPath = fileSaver.write("upload-images", sumary);
 		product.setSummaryPath(webPath);
 		products.save(product);
-		
+
 		if (bindingResult.hasErrors()) {
 			return form(product);
 		}
@@ -120,5 +120,5 @@ public class ProductsController {
 		return mv;
 
 	}
-	
+
 }
