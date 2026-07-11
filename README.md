@@ -138,3 +138,6 @@ mvn test
 ## Licença
 
 Este projeto é um software proprietário desenvolvido para a livraria Casa do Código.
+
+## Observações
+Futuramente irei migrar esse projeto para SpringBoot
