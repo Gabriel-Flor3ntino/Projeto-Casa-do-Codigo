@@ -18,7 +18,7 @@ public class ServletSpringMVC extends
 	protected Class<?>[] getRootConfigClasses() {
 		return new Class[] { SecurityConfiguration.class,
 				AppWebConfiguration.class, JPAConfiguration.class,
-				AmazonConfiguration.class };
+				JPAProductionConfiguration.class,AmazonConfiguration.class };
 	}
 
 	@Override

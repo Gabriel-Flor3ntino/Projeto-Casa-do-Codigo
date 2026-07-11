@@ -18,6 +18,7 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartResolver;
@@ -35,30 +36,62 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.google.common.cache.CacheBuilder;
 
+import br.com.casadocodigo.loja.cache.RequestHeaderKeyGeneration;
 import br.com.casadocodigo.loja.controllers.HomeController;
 import br.com.casadocodigo.loja.daos.ProductDAO;
 import br.com.casadocodigo.loja.infra.FileSaver;
+import br.com.casadocodigo.loja.models.Product;
 import br.com.casadocodigo.loja.models.ShoppingCart;
+import br.com.casadocodigo.loja.viewresolver.CustomXMLViewResolver;
 import br.com.casadocodigo.loja.viewresolver.JsonViewResolver;
 
 @EnableWebMvc
-@ComponentScan(basePackageClasses = { HomeController.class, ProductDAO.class, FileSaver.class, ShoppingCart.class })
+@ComponentScan(basePackageClasses = { HomeController.class, ProductDAO.class,
+		FileSaver.class, ShoppingCart.class, RequestHeaderKeyGeneration.class })
 @EnableCaching
-public class AppWebConfiguration extends WebMvcConfigurerAdapter {
-
+public class AppWebConfiguration extends WebMvcConfigurerAdapter{
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new LocaleChangeInterceptor());
 	}
-
+	
 	@Bean
-	public LocaleResolver localeResolver() {
+	public LocaleResolver localeResolver(){
 		return new CookieLocaleResolver();
 	}
-
+	
 	@Override
-	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+	public void configureDefaultServletHandling(
+			DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
+	}
+
+	@Bean
+	public ViewResolver contentNegotiatingViewResolver(
+			ContentNegotiationManager manager) {
+		List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
+		
+		resolvers.add(internalResourceViewResolver());
+		resolvers.add(new JsonViewResolver());
+		resolvers.add(getMarshallingXmlViewResolver());
+		
+		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+		resolver.setViewResolvers(resolvers);
+		resolver.setContentNegotiationManager(manager);
+		return resolver;
+	}
+
+	@Bean
+	public CustomXMLViewResolver getMarshallingXmlViewResolver() {
+		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+		marshaller.setClassesToBeBound(Product.class);
+//		XStreamMarshaller marshaller = new XStreamMarshaller();
+//		HashMap<String, Class<?>> keys = new HashMap<String,Class<?>>();
+//		keys.put("product", Product.class);
+//		keys.put("price", Price.class);
+//		marshaller.setAliases(keys);
+		return new CustomXMLViewResolver(marshaller);
 	}
 
 	@Bean
@@ -70,8 +103,8 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 		return resolver;
 	}
 
-	@Bean // (name="messageSource")
-	public MessageSource messageSource() {
+	@Bean(name="messageSource")
+	public MessageSource loadBundle() {
 		ReloadableResourceBundleMessageSource bundle = new ReloadableResourceBundleMessageSource();
 		bundle.setBasename("/WEB-INF/messages");
 		bundle.setDefaultEncoding("UTF-8");
@@ -81,17 +114,13 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public FormattingConversionService mvcConversionService() {
-		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService(true);
+		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService(
+				true);
 
 		DateFormatterRegistrar registrar = new DateFormatterRegistrar();
 		registrar.setFormatter(new DateFormatter("yyyy-MM-dd"));
 		registrar.registerFormatters(conversionService);
 		return conversionService;
-	}
-
-	@Bean
-	public MultipartResolver multipartResolver() {
-		return new StandardServletMultipartResolver();
 	}
 
 	@Bean
@@ -101,24 +130,16 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public CacheManager cacheManager() {
-		CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(5,
-				TimeUnit.MINUTES);
+		CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
+				.maximumSize(100).expireAfterAccess(5, TimeUnit.MINUTES);
 		GuavaCacheManager cacheManager = new GuavaCacheManager();
 		cacheManager.setCacheBuilder(builder);
 		return cacheManager;
 	}
 
 	@Bean
-	public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
-		List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
-
-		resolvers.add(internalResourceViewResolver());
-		resolvers.add(new JsonViewResolver());
-
-		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
-		resolver.setViewResolvers(resolvers);
-		resolver.setContentNegotiationManager(manager);
-		return resolver;
+	public MultipartResolver multipartResolver() {
+		return new StandardServletMultipartResolver();
 	}
 	
 	@Bean
@@ -136,5 +157,5 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 		
 		return javaMailSenderImpl;
 	}
-
+		
 }
